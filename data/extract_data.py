@@ -3,13 +3,12 @@ import pandas as pd
 import difflib
 
 #ASL vocabulary
-target_vocab = [
-    "book", "child", "come", "dinner", "dog", "eat", "father", "food", "friend",
-    "go", "he", "help", "home", "i", "letter", "like", "make", "mother", "movie",
-    "now", "park", "phone", "play", "read", "school", "see", "she", "student",
-    "store", "teacher", "to", "toy", "talk", "today", "want", "we", "with", "write",
-    "you", "at"
-]
+target_vocab = ['and', 'at', 'book', 'child', 'come', 'computer', 'dinner', 'dog', 'eat', 'every',
+ 'family', 'father', 'food', 'friend', 'girl', 'go', 'he', 'help', 'home', 'i',
+ 'letter', 'like', 'make', 'mother', 'movie', 'now', 'park', 'phone', 'play', 'read',
+ 'restaurant', 'school', 'see', 'she', 'store', 'student', 'talk', 'teacher', 'to',
+ 'today', 'toy', 'walk', 'want', 'we', 'weekend', 'with', 'woman', 'write', 'you',
+ 'young']
 
 #Load the WLASL dataset
 with open("WLASL_v0.3.json", "r") as f:
