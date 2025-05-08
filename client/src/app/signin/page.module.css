@@ -1,0 +1,121 @@
+.loginImgCnt {
+  position: relative;
+  flex: 1;
+}
+
+.loginImgCnt:before {
+  z-index: -1;
+  background: #f973164a;
+  filter: blur(117.5px);
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.loginImgCnt:after {
+    z-index: -1;
+    background-image: url("../assets/svg/bgVector.svg");
+    background-repeat: no-repeat;
+    position: absolute;
+    content: "";
+    top: 85%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+  }
+
+.loginImgCnt .thumb1{
+    position: absolute;
+    top: 5%;
+    right: -16px;
+    width: 30%;
+    max-width: 200px;
+    z-index: 0;
+}
+
+.loginImgCnt .thumb2{
+    position: absolute;
+    top: 42%;
+    right: -16px;
+    width: 60%;
+    max-width: 200px;
+    z-index: 0;
+}
+
+.loginImgCnt .thumb3{
+    width: 35%;
+    max-width: 200px;
+    position: absolute;
+    top: 20%;
+    left: -16px;
+    z-index: 0;
+}
+
+.loginImg {
+  margin: 35px auto;
+}
+
+.loginTitle {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.loginTypeBtn {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.loginTypeBtn :global(.MuiButtonBase-root.customButton) {
+  height: 45px;
+  font-size: 15px;
+  font-weight: 400;
+  justify-content: space-between;
+}
+
+.loginBtn {
+    margin-top: 10px;
+  }
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding-bottom: 25% !important;
+}
+
+.loginContainer .logoImg{
+margin-top: auto;
+}
+
+
+.signupLink {
+    text-align: center;
+    margin-top: 15px;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .linkButton {
+    background: none;
+    border: none;
+    color: var(--primColor, #f97316);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  .linkButton:hover {
+    text-decoration: underline;
+  }
+  
