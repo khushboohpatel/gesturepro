@@ -12,7 +12,7 @@ def download_video(entry):
 
     # Skip if any essential field is missing
     if not url or not video_id or not gloss:
-        print(f"⚠️ Skipping entry due to missing field(s): {entry}")
+        print(f"Skipping entry due to missing field(s): {entry}")
         return
 
     # Create output directory
@@ -21,19 +21,19 @@ def download_video(entry):
 
     output_path = os.path.join(output_dir, f"{gloss}_{video_id}.mp4")
     if os.path.exists(output_path):
-        print(f"✅ Already downloaded: {output_path}")
+        print(f"Already downloaded: {output_path}")
         return
 
     try:
         with yt_dlp.YoutubeDL({'outtmpl': output_path}) as ydl:
             ydl.download([url])
     except Exception as e:
-        print(f"❌ Error downloading {output_path}: {e}")
+        print(f"Error downloading {output_path}: {e}")
 
 def main():
     # Load your filtered CSV
     df = pd.read_csv("filtered_wlasl_entries.csv")
-    print(f"🔍 Total videos found: {len(df)}")
+    print(f"Total videos found: {len(df)}")
 
     for _, row in tqdm(df.iterrows(), total=len(df), desc="📥 Downloading videos"):
         download_video(row.to_dict())
