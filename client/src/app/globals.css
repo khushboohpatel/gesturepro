@@ -26,7 +26,6 @@ body {
   font-family: "Livvic", Arial, Helvetica, sans-serif;
 }
 
-
 a,
 button {
   font-family: var(--fontFamily) !important;
@@ -36,7 +35,6 @@ button {
 button:focus {
   outline: 0 !important;
 }
-
 
 ::-moz-selection {
   /* Code for Firefox */
@@ -48,8 +46,6 @@ button:focus {
   color: #fff;
   background: rgb(25, 157, 229, 15);
 }
-
-
 
 .customInput,
 .customSelect,
@@ -103,7 +99,7 @@ button:focus {
 
 .MuiButtonBase-root.customButton.tertButton {
   background-color: #fff;
-  color: #1E1E1E;
+  color: #1e1e1e;
   border: 1px solid #d9d9d9;
 }
 
@@ -111,4 +107,40 @@ button:focus {
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
+}
+
+.desktopContainer.authenticated {
+  padding-bottom: 80px;
+}
+
+.MuiBottomNavigation-root {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0px 16px #96969696;
+  height: auto !important;
+  min-height: 60px;
+  padding: 12px 0;
+  border-radius: 25px 25px 0px 0px;
+  background: #d9d9d9;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-label {
+  color: #3359c6;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-label.Mui-selected {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.MuiBottomNavigationAction-root {
+  opacity: 0.8;
+}
+
+.MuiBottomNavigationAction-root.Mui-selected {
+  opacity: 1;
 }

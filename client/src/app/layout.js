@@ -1,8 +1,7 @@
-"use client";
-
 import { Livvic } from "next/font/google";
 import "./globals.css";
-import ThemeRegistry from '../utils/ThemeRegistry';
+import ThemeRegistry from "../utils/ThemeRegistry";
+import Skeleton from "./skeleton";
 import NextAuthSessionProvider from "@/components/SessionProvider";
 
 const livvic = Livvic({
@@ -11,26 +10,26 @@ const livvic = Livvic({
   weight: ["400", "500", "600", "700", "900"],
 });
 
-// export const metadata = {
-//   title: "GesturePro",
-//   description: "Interactive Sign Language Translator",
-// };
+export const metadata = {
+  title: "GesturePro",
+  description: "Interactive Sign Language Translator",
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-          <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-        crossOrigin="anonymous"
-      />
+        <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={`${livvic.variable} antialiased`}>
         <NextAuthSessionProvider>
           <ThemeRegistry>
-            <div className="desktopContainer">{children}</div>
+            <Skeleton>{children}</Skeleton>
           </ThemeRegistry>
         </NextAuthSessionProvider>
       </body>
