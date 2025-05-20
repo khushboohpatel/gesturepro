@@ -93,7 +93,7 @@ export default function SignupStep3() {
         height={35}
       />
       <h1 className={styles.signupTitle}>
-        Hey Peter, Let's setup your account.
+        Hey Peter, Let&apos;s setup your account.
       </h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="row">{Object.values(mapData(stepTwoInfo))}</div>

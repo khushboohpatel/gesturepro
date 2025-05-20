@@ -33,6 +33,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "8000:8000"
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
       interval: 10s
@@ -43,9 +44,15 @@ services:
     build: ./client
     ports:
       - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=production
     depends_on:
       app:
         condition: service_healthy
+    restart: unless-stopped
+    command: sh -c "npm run build && npm start"
+    working_dir: /app
 
 volumes:
   postgres_data:
