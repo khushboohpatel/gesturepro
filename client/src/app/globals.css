@@ -146,9 +146,8 @@ button:focus {
   opacity: 1;
 }
 
-@media screen and (max-width: 768px) {
-  .MuiBottomNavigation-root  {
+@media screen and (max-width: 500px) {
+  .MuiBottomNavigation-root {
     display: flex !important;
   }
-  
 }
