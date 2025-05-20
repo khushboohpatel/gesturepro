@@ -1,5 +1,11 @@
-.camCnt {
-  height: calc(88vh - 100px);
+.camCntOn {
+  background: #dde6ff;
+  height: calc(76vh - 100px);
+}
+
+.camCntOff {
+    background: #dde6ff;
+    height: calc(88vh - 100px);
 }
 
 .toggleCamCnt {
@@ -34,18 +40,18 @@
   border-radius: 8px;
 }
 
-.camTranscript{
-    display: grid;
-    grid-template-columns: auto 50px;
-    gap: 10px;
-    padding: 16px;
-    border-bottom: 1px solid #EAEAEA;
+.camTranscript {
+  display: grid;
+  grid-template-columns: auto 50px;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
 }
 
-.camTranscript p{
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
+.camTranscript p {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .camTranscript :global(.MuiButton-root) {
