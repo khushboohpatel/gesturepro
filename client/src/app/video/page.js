@@ -63,7 +63,7 @@ export default function GPVideo() {
 
   return (
     <div className="">
-      <div className={styles.camCnt}>
+      <div className={isCameraOn ? styles.camCntOn : styles.camCntOff}>
         {isCameraOn && (
           <Webcam
             audio={false}

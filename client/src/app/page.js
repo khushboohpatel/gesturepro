@@ -59,7 +59,7 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.homeModuleSection}>
-        <Button className={styles.homeModule + " " + styles.gpVideo}>
+        <Button className={styles.homeModule + " " + styles.gpVideo} onClick={()=>router.push("/video")}>
           <span>
             <h3>GesturePro Video</h3>
             <p>
