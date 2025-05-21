@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@mui/material";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import styles from "./page.module.css";
 
@@ -9,14 +9,34 @@ export default function GPVideo() {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
+  const [cameraError, setCameraError] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+      setIsMobile(mobileRegex.test(userAgent.toLowerCase()));
+    };
+    checkMobile();
+  }, []);
 
   const videoConstraints = {
-    width: 640,
-    height: 480,
-    facingMode: "environment",
+    width: { min: 320, ideal: 640, max: 1280 },
+    height: { min: 240, ideal: 480, max: 720 },
+    facingMode: isMobile ? "environment" : "user",
+    aspectRatio: { ideal: 1.333333 }
   };
 
+  const handleCameraError = useCallback((error) => {
+    console.error("Camera error:", error);
+    setCameraError(error.message || "Failed to access camera");
+    setIsCameraOn(false);
+  }, []);
+
   const toggleCamera = useCallback(() => {
+    setCameraError(null);
     setIsCameraOn((prev) => !prev);
   }, []);
 
@@ -63,6 +83,12 @@ export default function GPVideo() {
 
   return (
     <div className="">
+      {cameraError && (
+        <div className={styles.errorMessage}>
+          <p>Camera Error: {cameraError}</p>
+          <p>Please ensure camera permissions are granted and try again.</p>
+        </div>
+      )}
       <div className={isCameraOn ? styles.camCntOn : styles.camCntOff}>
         {isCameraOn && (
           <Webcam
@@ -70,6 +96,8 @@ export default function GPVideo() {
             ref={webcamRef}
             videoConstraints={videoConstraints}
             className="w-full h-full object-cover"
+            onUserMediaError={handleCameraError}
+            mirrored={!isMobile}
           />
         )}
       </div>
