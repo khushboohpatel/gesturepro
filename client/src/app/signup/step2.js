@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { mapData } from "@/utils";
 
-export default function SignupStep2() {
+export default function SignupStep2({ handleNext }) {
   const validationArray = Yup.object({
     firstName: Yup.string().required("This field is required!"),
     lastName: Yup.string().required("This field is required!"),
@@ -19,14 +19,14 @@ export default function SignupStep2() {
       lastName: "",
     },
     validationSchema: validationArray,
-    onSubmit: (values) => {
-      console.log(values, "Signup values");
+    onSubmit: async (values) => {
+      handleNext(values);
     },
   });
 
   const stepTwoInfo = [
     {
-      label: "Full name",
+      label: "First name",
       name: "firstName",
       type: "text",
       placeholder: "Enter your first name",
@@ -63,7 +63,16 @@ export default function SignupStep2() {
       />
       <h1 className={styles.signupTitle}>What should we call you?</h1>
       <form onSubmit={formik.handleSubmit}>
-        <div className="row">{Object.values(mapData(stepTwoInfo))}</div>
+        <div className="row">
+          {Object.values(mapData(stepTwoInfo))}
+          <div className="col-12 mt-3">
+            <CustomButton 
+              type="submit"
+              label="Next" 
+              disabled={formik.isSubmitting}
+            />
+          </div>
+        </div>
       </form>
     </div>
   );

@@ -9,6 +9,8 @@ import EastIcon from "@mui/icons-material/East";
 import SignupStep2 from "./step2";
 import SignupStep3 from "./step3";
 import SignupStep4 from "./step4";
+import AuthState from "../context/auth/authState";
+import AlertState from "../context/alert/alertState";
 
 // Custom stepper to avoid MUI's theme-dependent components
 const CustomStepper = ({
@@ -38,9 +40,13 @@ const CustomStepper = ({
 
 export default function Signup() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [step2Values, setStep2Values] = React.useState({});
   const maxSteps = 3;
 
-  const handleNext = () => {
+  const handleNext = (stepData) => {
+    if (stepData) {
+      setStep2Values(prev => ({ ...prev, ...stepData }));
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -49,59 +55,63 @@ export default function Signup() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, p: 2 }} className={styles.authContainer}>
-      {/* <Paper
-        square
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          height: 50,
-          pl: 2,
-          bgcolor: "background.default",
-        }}
-      >
-         <Typography>{steps[activeStep].label}</Typography> 
-      </Paper>*/}
-      {/* <Box sx={{ width: "100%", mb: 2 }}> */}
-        {activeStep === 0 ? (
-          <SignupStep1 handleNext={handleNext} />
-        ) : activeStep === 1 ? (
-          <SignupStep2 />
-        ) : activeStep === 2 ? (
-          <SignupStep3 />
-        ) : (
-          <SignupStep4 />
-        )}
-      {/* </Box> */}
-      <CustomStepper
-        steps={maxSteps}
-        activeStep={activeStep}
-        className={`${styles.signupStepperBar} ${
-          activeStep === maxSteps || activeStep === 0 ? "d-none" : ""
-        }`}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps}
-            className={`signupNextBtn ${activeStep === 0 ? "d-none" : ""}`}
+    <AuthState>
+      <AlertState>
+        <Box sx={{ flexGrow: 1, p: 2 }} className={styles.authContainer}>
+          {/* <Paper
+            square
+            elevation={0}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: 50,
+              pl: 2,
+              bgcolor: "background.default",
+            }}
           >
-            <EastIcon />
-          </Button>
-        }
-        backButton={
-          <Button
-            size="small"
-            onClick={handleBack}
-            disabled={activeStep === 0}
-            className={`signupBackBtn ${activeStep === 0 ? "d-none" : ""}`}
-          >
-            <KeyboardArrowLeft />
-            Back
-          </Button>
-        }
-      />
-    </Box>
+             <Typography>{steps[activeStep].label}</Typography> 
+          </Paper>*/}
+          {/* <Box sx={{ width: "100%", mb: 2 }}> */}
+            {activeStep === 0 ? (
+              <SignupStep1 handleNext={handleNext} />
+            ) : activeStep === 1 ? (
+              <SignupStep2 handleNext={handleNext} />
+            ) : activeStep === 2 ? (
+              <SignupStep3 handleNext={handleNext} step2Values={step2Values} />
+            ) : (
+              <SignupStep4 />
+            )}
+          {/* </Box> */}
+          <CustomStepper
+            steps={maxSteps}
+            activeStep={activeStep}
+            className={`${styles.signupStepperBar} ${
+              activeStep === maxSteps || activeStep === 0 ? "d-none" : ""
+            }`}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === maxSteps}
+                className={`signupNextBtn ${activeStep === 0 ? "d-none" : ""}`}
+              >
+                <EastIcon />
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={activeStep === 0}
+                className={`signupBackBtn ${activeStep === 0 ? "d-none" : ""}`}
+              >
+                <KeyboardArrowLeft />
+                Back
+              </Button>
+            }
+          />
+        </Box>
+      </AlertState>
+    </AuthState>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import CustomButton from "@/components/atoms/buttons/CustomButton";
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -10,9 +10,19 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import AuthContext from "../context/auth/authContext";
+import AlertContext from "../context/alert/alertContext";
+import SnackbarContext from "@/app/context/snackbar/snackbarContext";
 
-export default function SignupStep3() {
+export default function SignupStep3({ handleNext, step2Values }) {
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+  const { showSnackbar } = useContext(SnackbarContext);
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const { setAlert } = alertContext;
+  const { register, responseStatus, clearResponse } = authContext;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -25,8 +35,12 @@ export default function SignupStep3() {
   };
 
   const validationArray = Yup.object({
-    firstName: Yup.string().required("This field is required!"),
-    lastName: Yup.string().required("This field is required!"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("This field is required!"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("This field is required!"),
   });
 
   const formik = useFormik({
@@ -35,10 +49,34 @@ export default function SignupStep3() {
       password: "",
     },
     validationSchema: validationArray,
-    onSubmit: (values) => {
-      console.log(values, "Signup values");
+    onSubmit: async (values) => {
+      try {
+        await register({
+          first_name: step2Values.firstName,
+          last_name: step2Values.lastName,
+          ...values,
+        });
+      } catch (error) {
+        showSnackbar("Registration failed. Please try again!", "error"); // or 'error', 'warning', 'info'
+      }
     },
   });
+
+  useEffect(() => {
+    if (responseStatus) {
+      if (responseStatus.status === "SUCCESS") {
+        showSnackbar("Registered successfully!", "success");
+        clearResponse();
+        router.push("/login");
+
+        console.log("Login Success 1");
+      } else if (responseStatus.status === "error") {
+        showSnackbar("Something went wrong!", "error");
+        clearResponse();
+      }
+    }
+  }, [responseStatus]);
+
 
   const stepTwoInfo = [
     {
@@ -92,11 +130,18 @@ export default function SignupStep3() {
         width={125}
         height={35}
       />
-      <h1 className={styles.signupTitle}>
-        Hey Peter, Let&apos;s setup your account.
-      </h1>
+      <h1 className={styles.signupTitle}>Let&apos;s setup your account.</h1>
       <form onSubmit={formik.handleSubmit}>
-        <div className="row">{Object.values(mapData(stepTwoInfo))}</div>
+        <div className="row">
+          {Object.values(mapData(stepTwoInfo))}
+          <div className="col-12 mt-3">
+            <CustomButton
+              type="submit"
+              label="Create Account"
+              disabled={formik.isSubmitting}
+            />
+          </div>
+        </div>
       </form>
     </div>
   );

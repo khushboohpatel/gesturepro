@@ -23,10 +23,7 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
-  },
-  experimental: {
-    allowedDevOrigins: ['10.250.116.36'],
-  },
+  }
 };
 
 export default nextConfig;

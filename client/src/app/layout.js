@@ -3,6 +3,12 @@ import "./globals.css";
 import ThemeRegistry from "../utils/ThemeRegistry";
 import Skeleton from "./skeleton";
 import NextAuthSessionProvider from "@/components/SessionProvider";
+import AuthState from "./context/auth/authState";
+import AlertState from "./context/alert/alertState";
+import SignupState from "./context/Signup/signupState";
+import UsersState from "./context/Users/usersState";
+import SnackbarState from "./context/snackbar/snackbarState";
+import Alerts from "../utils/alert";
 
 const livvic = Livvic({
   variable: "--font-livvic",
@@ -27,11 +33,26 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${livvic.variable} antialiased`}>
-        <NextAuthSessionProvider>
-          <ThemeRegistry>
-            <Skeleton>{children}</Skeleton>
-          </ThemeRegistry>
-        </NextAuthSessionProvider>
+        <AuthState>
+          <AlertState>
+            <SignupState>
+              <UsersState>
+                <NextAuthSessionProvider>
+                  <ThemeRegistry>
+                    <SnackbarState>
+                      <Skeleton>
+                        <>
+                          <Alerts />
+                          {children}
+                        </>
+                      </Skeleton>
+                    </SnackbarState>
+                  </ThemeRegistry>
+                </NextAuthSessionProvider>
+              </UsersState>
+            </SignupState>
+          </AlertState>
+        </AuthState>
       </body>
     </html>
   );
