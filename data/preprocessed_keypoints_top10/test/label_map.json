@@ -1,0 +1,12 @@
+{
+  "computer": 0,
+  "mother": 1,
+  "like": 2,
+  "go": 3,
+  "now": 4,
+  "family": 5,
+  "book": 6,
+  "dog": 7,
+  "school": 8,
+  "student": 9
+}
