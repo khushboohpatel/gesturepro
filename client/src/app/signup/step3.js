@@ -12,7 +12,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import AuthContext from "../context/auth/authContext";
 import AlertContext from "../context/alert/alertContext";
-import SnackbarContext from "@/app/context/snackbar/snackbarContext";
+import SnackbarContext from "../context/snackbar/snackbarContext";
 
 export default function SignupStep3({ handleNext, step2Values }) {
   const authContext = useContext(AuthContext);
