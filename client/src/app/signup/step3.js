@@ -73,6 +73,7 @@ export default function SignupStep3({ handleNext, step2Values }) {
 
   useEffect(() => {
     if (responseStatus) {
+      console.log(responseStatus, 'responseStatusCheck')
       if (responseStatus.status === "SUCCESS") {
         showSnackbar("Registered successfully!", "success");
         clearResponse();
@@ -80,7 +81,7 @@ export default function SignupStep3({ handleNext, step2Values }) {
 
         console.log("Login Success 1");
       } else if (responseStatus.status === "error") {
-        showSnackbar("Something went wrong!", "error");
+        showSnackbar(responseStatus?.message, "error");
         clearResponse();
       }
     }
@@ -138,7 +139,9 @@ export default function SignupStep3({ handleNext, step2Values }) {
         width={125}
         height={35}
       />
-      <h1 className={styles.signupTitle}>Let&apos;s setup your account.</h1>
+      <h1 className={styles.signupTitle}>
+        He {step2Values.first_name}, Let&apos;s setup your account.
+      </h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="row">
           {Object.values(mapData(stepTwoInfo))}

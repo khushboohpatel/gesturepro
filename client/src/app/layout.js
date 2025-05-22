@@ -5,8 +5,6 @@ import Skeleton from "./skeleton";
 import NextAuthSessionProvider from "@/components/SessionProvider";
 import AuthState from "./context/auth/authState";
 import AlertState from "./context/alert/alertState";
-import SignupState from "./context/signup/signupState";
-import UsersState from "./context/users/usersState";
 import SnackbarState from "./context/snackbar/snackbarState";
 import Alerts from "../utils/alert";
 
@@ -35,22 +33,18 @@ export default function RootLayout({ children }) {
       <body className={`${livvic.variable} antialiased`}>
         <AuthState>
           <AlertState>
-            <SignupState>
-              <UsersState>
-                <NextAuthSessionProvider>
-                  <ThemeRegistry>
-                    <SnackbarState>
-                      <Skeleton>
-                        <>
-                          <Alerts />
-                          {children}
-                        </>
-                      </Skeleton>
-                    </SnackbarState>
-                  </ThemeRegistry>
-                </NextAuthSessionProvider>
-              </UsersState>
-            </SignupState>
+            <NextAuthSessionProvider>
+              <ThemeRegistry>
+                <SnackbarState>
+                  <Skeleton>
+                    <>
+                      <Alerts />
+                      {children}
+                    </>
+                  </Skeleton>
+                </SnackbarState>
+              </ThemeRegistry>
+            </NextAuthSessionProvider>
           </AlertState>
         </AuthState>
       </body>

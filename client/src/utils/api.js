@@ -69,11 +69,3 @@ export const setAuthToken = (token) => {
     delete axios.defaults.headers.common["authorization"];
   }
 };
-
-export const setIPAddress = (ipaddress) => {
-  if (ipaddress) {
-    axios.defaults.headers.common["ipaddress"] = ipaddress;
-  } else {
-    delete axios.defaults.headers.common["ipaddress"];
-  }
-};

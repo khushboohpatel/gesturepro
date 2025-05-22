@@ -8,13 +8,10 @@ import {
   USER_LOADED,
   LOGOUT,
   RESPONSE_STATUS,
-  COUNT_LOADED,
   CLEAR_RESPONSE,
-  CALL_END,
 } from "./authTypes";
 import { apiCall, setAuthToken } from "../../../utils/api";
 import { storage, session } from "../../../utils/storage";
-// import { capitalize } from "@/utils";
 
 export const AuthState = (props) => {
   const initialState = {
@@ -23,7 +20,6 @@ export const AuthState = (props) => {
     loading: true,
     user: null,
     responseStatus: null,
-    callEnd: null,
     error: null,
   };
 
@@ -36,10 +32,9 @@ export const AuthState = (props) => {
       const [res] = await Promise.all([
         apiCall("post", "register", formData, "", "auth"),
       ]);
-      resp.commonResponse(res, "register");
-      console.log(res, "checkResData");
+      resp.commonResponse(res, "register", res?.response?.data?.detail);
     } catch (err) {
-      resp.commonErrorResponse("register");
+      resp.commonErrorResponse("register", res?.response?.data?.detail);
     }
   };
 
@@ -110,7 +105,6 @@ export const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         responseStatus: state.responseStatus,
-        callEnd: state.callEnd,
         error: state.error,
         register,
         login,

@@ -6,19 +6,20 @@ export class response {
     this.RESPONSE_STATUS = RESPONSE_STATUS;
   }
 
-  async commonErrorResponse(from) {
+  async commonErrorResponse(from, message) {
+    console.log(from, message, "checkError");
     this.dispatch({
       type: this.RESPONSE_STATUS,
       payload: {
         status: "error",
-        message: "Something went wrong!",
+        message: message ? message : "Something went wronga!",
         type: 0,
         from: from,
       },
     });
   }
 
-  async commonResponse(data, from) {
+  async commonResponse(data, from, message) {
     console.log(data, from, this.RESPONSE_STATUS, "checkCommon");
     if (data && data.message && data.message == "SUCCESS") {
       this.dispatch({
@@ -53,7 +54,7 @@ export class response {
         },
       });
     } else {
-      this.commonErrorResponse(from);
+      this.commonErrorResponse(from, message);
     }
   }
 }
