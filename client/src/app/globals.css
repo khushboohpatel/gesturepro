@@ -23,12 +23,12 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Livvic", Arial, Helvetica, sans-serif;
+  font-family: var(--font-livvic), Arial, Helvetica, sans-serif;
 }
 
 a,
 button {
-  font-family: var(--fontFamily) !important;
+  font-family: var(--font-livvic) !important;
   letter-spacing: initial !important;
 }
 

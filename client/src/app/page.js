@@ -5,23 +5,53 @@ import { useRouter } from "next/navigation";
 import CustomButton from "@/components/atoms/buttons/CustomButton";
 import styles from "./page.module.css";
 import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { data: session, status } = useSession();
+  const nextAuthSession = session;
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+  const [username, setUsername] = useState("User");
+
+  useEffect(() => {
+    setIsClient(true);
+    // Get username from storage after component mounts
+    if (typeof window !== 'undefined') {
+      const storedUsername = localStorage.getItem("username") || sessionStorage.getItem("username");
+      if (storedUsername) {
+        setUsername(storedUsername);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("username");
+      sessionStorage.removeItem("username");
+    }
     signOut({ callbackUrl: "/signin" });
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const localToken = localStorage.getItem("token") || sessionStorage.getItem("token");
+      if (status === "unauthenticated" && !localToken) {
+        router.push("/signin");
+      }
+    }
+  }, [status, router]);
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  // if (status === "unauthenticated") {
-  //   router.push("/signin");
-  //   return null;
-  // }
+  // Get user info from either auth method
+  const user = nextAuthSession?.user || {
+    name: username
+  };
 
   return (
     <>
@@ -42,7 +72,7 @@ export default function Home() {
         <div className={styles.homeGreeting}>
           <h1>
             Hello, <br />
-            {session?.user?.name || "User"}{" "}
+            {user.name}{" "}
             <img
               src="/assets/images/wavingHand.png"
               alt="waving hand"
