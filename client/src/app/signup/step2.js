@@ -6,17 +6,19 @@ import styles from "./page.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { mapData } from "@/utils";
+import { Button } from "@mui/material";
+import EastIcon from "@mui/icons-material/East";
 
 export default function SignupStep2({ handleNext }) {
   const validationArray = Yup.object({
-    firstName: Yup.string().required("This field is required!"),
-    lastName: Yup.string().required("This field is required!"),
+    first_name: Yup.string().required("This field is required!"),
+    last_name: Yup.string().required("This field is required!"),
   });
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
     },
     validationSchema: validationArray,
     onSubmit: async (values) => {
@@ -27,7 +29,7 @@ export default function SignupStep2({ handleNext }) {
   const stepTwoInfo = [
     {
       label: "First name",
-      name: "firstName",
+      name: "first_name",
       type: "text",
       placeholder: "Enter your first name",
       class: "col-12",
@@ -35,7 +37,7 @@ export default function SignupStep2({ handleNext }) {
     },
     {
       label: "Last name",
-      name: "lastName",
+      name: "last_name",
       type: "text",
       placeholder: "Enter your last name",
       class: "col-12",
@@ -65,12 +67,20 @@ export default function SignupStep2({ handleNext }) {
       <form onSubmit={formik.handleSubmit}>
         <div className="row">
           {Object.values(mapData(stepTwoInfo))}
-          <div className="col-12 mt-3">
-            <CustomButton 
+          <div className="col-12 mt-3 d-flex justify-content-end">
+              {/* <CustomButton 
               type="submit"
               label="Next" 
               disabled={formik.isSubmitting}
-            />
+            /> */}
+            <Button
+              size="small"
+              type="submit"
+              disabled={formik.isSubmitting}
+              className="signupNextBtn"
+            >
+              <EastIcon />
+            </Button>
           </div>
         </div>
       </form>

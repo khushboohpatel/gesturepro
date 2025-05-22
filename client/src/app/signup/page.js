@@ -88,16 +88,16 @@ export default function Signup() {
             className={`${styles.signupStepperBar} ${
               activeStep === maxSteps || activeStep === 0 ? "d-none" : ""
             }`}
-            nextButton={
-              <Button
-                size="small"
-                onClick={handleNext}
-                disabled={activeStep === maxSteps}
-                className={`signupNextBtn ${activeStep === 0 ? "d-none" : ""}`}
-              >
-                <EastIcon />
-              </Button>
-            }
+            // nextButton={
+            //   <Button
+            //     size="small"
+            //     onClick={handleNext}
+            //     disabled={activeStep === maxSteps}
+            //     className={`signupNextBtn ${activeStep === 0 ? "d-none" : ""}`}
+            //   >
+            //     <EastIcon />
+            //   </Button>
+            // }
             backButton={
               <Button
                 size="small"

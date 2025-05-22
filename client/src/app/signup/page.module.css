@@ -82,6 +82,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: -35px;
 }
 
 .signupStepperBar :global(.signupBackBtn) {
@@ -90,7 +91,7 @@
   left: 0;
 }
 
-.signupStepperBar :global(.signupNextBtn) {
+.signupCnt :global(.signupNextBtn) {
   width: 60px;
   height: 60px;
   min-width: initial;

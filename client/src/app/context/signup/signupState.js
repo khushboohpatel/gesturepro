@@ -70,7 +70,6 @@ const SignupState = (props) => {
         });
       }
 
-      console.log("Success while getting ESM data");
     } catch (err) {
       await dispatch({
         type: RESPONSE_STATUS,
@@ -81,7 +80,6 @@ const SignupState = (props) => {
           from: fromVariable || "registerUser",
         },
       });
-      console.log(err, "Error while getting ESM data");
     }
   };
 

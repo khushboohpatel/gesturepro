@@ -2,6 +2,6 @@
 
 import { createContext } from "react";
 
-const esmRegContext = createContext();
+const signupContext = createContext();
 
-export default esmRegContext;
+export default signupContext;

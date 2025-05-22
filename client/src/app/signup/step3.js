@@ -13,11 +13,15 @@ import IconButton from "@mui/material/IconButton";
 import AuthContext from "../context/auth/authContext";
 import AlertContext from "../context/alert/alertContext";
 import SnackbarContext from "../context/snackbar/snackbarContext";
+import { useRouter } from "next/navigation";
+import { Button } from "@mui/material";
+import EastIcon from "@mui/icons-material/East";
 
 export default function SignupStep3({ handleNext, step2Values }) {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { showSnackbar } = useContext(SnackbarContext);
+  const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,6 +45,11 @@ export default function SignupStep3({ handleNext, step2Values }) {
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("This field is required!"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character")
+    .required("This field is required!"),
   });
 
   const formik = useFormik({
@@ -52,8 +61,8 @@ export default function SignupStep3({ handleNext, step2Values }) {
     onSubmit: async (values) => {
       try {
         await register({
-          first_name: step2Values.firstName,
-          last_name: step2Values.lastName,
+          first_name: step2Values.first_name,
+          last_name: step2Values.last_name,
           ...values,
         });
       } catch (error) {
@@ -76,7 +85,6 @@ export default function SignupStep3({ handleNext, step2Values }) {
       }
     }
   }, [responseStatus]);
-
 
   const stepTwoInfo = [
     {
@@ -134,12 +142,20 @@ export default function SignupStep3({ handleNext, step2Values }) {
       <form onSubmit={formik.handleSubmit}>
         <div className="row">
           {Object.values(mapData(stepTwoInfo))}
-          <div className="col-12 mt-3">
-            <CustomButton
+          <div className="col-12 mt-3 d-flex justify-content-end">
+            {/* <CustomButton
               type="submit"
               label="Create Account"
               disabled={formik.isSubmitting}
-            />
+            /> */}
+            <Button
+              size="small"
+              type="submit"
+              disabled={formik.isSubmitting}
+              className="signupNextBtn"
+            >
+              <EastIcon />
+            </Button>
           </div>
         </div>
       </form>
