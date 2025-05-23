@@ -6,8 +6,11 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   // Allow public paths
-  // Add all public paths here (e.g., signin, signup, landing page, etc.)
-  const publicPaths = ["/signin", "/api/auth"];
+  const publicPaths = [
+    "/signin",
+    "/api/auth"
+  ];
+  
   const isPublicPath = publicPaths.some(path => 
     pathname.startsWith(path) || pathname === "/"
   );
@@ -36,6 +39,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    "/((?!_next/static|_next/image|favicon.ico|assets/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|assets/|images/).*)",
   ],
 }; 

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost", "lh3.googleusercontent.com"],
+    domains: ["localhost", "lh3.googleusercontent.com", "gesturepro-dev.vercel.app"],
     remotePatterns: [
       {
         protocol: "http",
@@ -23,7 +23,28 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
-  }
+  },
+  turbopack: {
+    rules: {
+      // Configure Turbopack rules here
+      '*.svg': ['@svgr/webpack'],
+    },
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+    ];
+  },
+  // Configure allowed development origins
+  allowedDevOrigins: ['10.250.109.177', 'localhost', '127.0.0.1', 'gesturepro-dev.vercel.app'],
 };
 
 export default nextConfig;

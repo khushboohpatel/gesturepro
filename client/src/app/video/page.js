@@ -11,6 +11,7 @@ export default function GPVideo() {
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [cameraError, setCameraError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSecureContext, setIsSecureContext] = useState(true);
 
   useEffect(() => {
     // Check if device is mobile
@@ -20,6 +21,9 @@ export default function GPVideo() {
       setIsMobile(mobileRegex.test(userAgent.toLowerCase()));
     };
     checkMobile();
+
+    // Check if running in secure context
+    setIsSecureContext(window.isSecureContext);
   }, []);
 
   const videoConstraints = {
@@ -31,14 +35,36 @@ export default function GPVideo() {
 
   const handleCameraError = useCallback((error) => {
     console.error("Camera error:", error);
-    setCameraError(error.message || "Failed to access camera");
+    let errorMessage = "Failed to access camera";
+    
+    if (!isSecureContext) {
+      errorMessage = "Camera access requires a secure (HTTPS) connection";
+    } else if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      errorMessage = "Your browser doesn't support camera access";
+    } else if (error.name === "NotAllowedError") {
+      errorMessage = "Camera access was denied. Please allow camera access in your browser settings.";
+    } else if (error.name === "NotFoundError") {
+      errorMessage = "No camera found on your device";
+    } else if (error.name === "NotReadableError") {
+      errorMessage = "Camera is already in use by another application";
+    }
+    
+    setCameraError(errorMessage);
     setIsCameraOn(false);
-  }, []);
+  }, [isSecureContext]);
 
   const toggleCamera = useCallback(() => {
     setCameraError(null);
+    if (!isSecureContext) {
+      setCameraError("Camera access requires a secure (HTTPS) connection");
+      return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setCameraError("Your browser doesn't support camera access");
+      return;
+    }
     setIsCameraOn((prev) => !prev);
-  }, []);
+  }, [isSecureContext]);
 
   const speakText = (text) => {
     if ("speechSynthesis" in window) {
