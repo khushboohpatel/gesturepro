@@ -18,17 +18,6 @@ export const metadata = {
   title: "GesturePro",
   description: "Interactive Sign Language Translator",
   manifest: "/manifest.json",
-  themeColor: "#000000",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "GesturePro",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   icons: {
     icon: [
       { url: "/assets/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
@@ -38,6 +27,13 @@ export const metadata = {
       { url: "/assets/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
     ],
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
