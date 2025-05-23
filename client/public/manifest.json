@@ -6,18 +6,26 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot1.png",
+      "sizes": "320x640",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
   "icons": [
     {
       "src": "/assets/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/assets/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
-} 
+}

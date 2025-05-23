@@ -8,6 +8,7 @@ export async function middleware(req) {
   // Allow public paths
   const publicPaths = [
     "/signin",
+    "/signup",
     "/api/auth",
     "/manifest.json",
   ];
@@ -43,6 +44,6 @@ export const config = {
      * - images/ (images folder)
      * - icons/ (icons folder)
      */
-    "/((?!_next/static|_next/image|favicon.ico|manifest.json|assets/|images/|icons/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|manifest.json|assets/|images/|icons/|signin|signup).*)",
   ],
 }; 
