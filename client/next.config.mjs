@@ -1,3 +1,5 @@
+import withPWA from 'next-pwa';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -47,4 +49,9 @@ const nextConfig = {
   allowedDevOrigins: ['10.250.109.177', 'localhost', '127.0.0.1', 'gesturepro-dev.vercel.app'],
 };
 
-export default nextConfig;
+export default withPWA({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development'
+})(nextConfig);
