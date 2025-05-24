@@ -51,6 +51,7 @@ export const AuthState = (props) => {
       } else {
         storage.set("token", res.data.access_token);
       }
+      resp.commonResponse(res, "login", "Logged in successfully!");
 
       // loadUser();
     } catch (err) {
@@ -58,6 +59,7 @@ export const AuthState = (props) => {
         type: LOGOUT,
         payload: err.response?.data?.msg || "Login failed",
       });
+      resp.commonErrorResponse("login", "Something went wrong!");
     }
   };
 
