@@ -24,13 +24,13 @@ function CustomInput({ id, variant, label, className, ...props }) {
         error={props.error}
         helperText={props.helperText}
         required={props.required}
-        slotProps={{
-          input: {
-            ...(props.inputProps || {}),
-            startAdornment: props.startAdornment,
-            endAdornment: props.endAdornment,
-            shrink: props.shrink ? "true" : "false",
-          },
+        InputProps={{
+          startAdornment: props.startAdornment,
+          endAdornment: props.endAdornment,
+        }}
+        inputProps={{
+          ...(props.inputProps || {}),
+          shrink: props.shrink ? "true" : "false",
         }}
       />
     </div>

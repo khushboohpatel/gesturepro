@@ -12,7 +12,7 @@ export class response {
       type: this.RESPONSE_STATUS,
       payload: {
         status: "error",
-        message: message ? message : "Something went wronga!",
+        message: message ? message : "Something went wrong!",
         type: 0,
         from: from,
       },
