@@ -17,23 +17,24 @@
 }
 
 .loginImgCnt:after {
-    z-index: -1;
-    background-image: url("../assets/svg/bgVector.svg");
-    background-repeat: no-repeat;
-    position: absolute;
-    content: "";
-    top: 85%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    transform: translate(-50%, -50%);
-  }
+  z-index: -1;
+  background-image: url("../assets/svg/bgVector.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  content: "";
+  top: 85%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
 
 @keyframes slideUpFade {
   0% {
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -41,37 +42,37 @@
 }
 
 .loginImgCnt .thumb1 {
-    position: absolute;
-    top: 5%;
-    right: -16px;
-    width: 30%;
-    max-width: 200px;
-    z-index: 0;
-    animation: slideUpFade 0.8s ease-out forwards;
-    opacity: 0;
+  position: absolute;
+  top: 5%;
+  right: -16px;
+  width: 30%;
+  max-width: 200px;
+  z-index: 0;
+  animation: slideUpFade 0.8s ease-out forwards;
+  opacity: 0;
 }
 
 .loginImgCnt .thumb2 {
-    position: absolute;
-    top: 42%;
-    right: -16px;
-    width: 60%;
-    max-width: 200px;
-    z-index: 0;
-    animation: slideUpFade 0.8s ease-out 0.2s forwards;
-    opacity: 0;
-    transform: translateY(0);
+  position: absolute;
+  top: 42%;
+  right: -16px;
+  width: 60%;
+  max-width: 200px;
+  z-index: 0;
+  animation: slideUpFade 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+  transform: translateY(0);
 }
 
 .loginImgCnt .thumb3 {
-    width: 35%;
-    max-width: 200px;
-    position: absolute;
-    top: 20%;
-    left: -16px;
-    z-index: 0;
-    animation: slideUpFade 0.8s ease-out 0.4s forwards;
-    opacity: 0;
+  width: 35%;
+  max-width: 200px;
+  position: absolute;
+  top: 20%;
+  left: -16px;
+  z-index: 0;
+  animation: slideUpFade 0.8s ease-out 0.4s forwards;
+  opacity: 0;
 }
 
 .loginImg {
@@ -100,8 +101,8 @@
 }
 
 .loginBtn {
-    margin-top: 10px;
-  }
+  margin-top: 10px;
+}
 
 .loginContainer {
   display: flex;
@@ -111,29 +112,28 @@
   padding-bottom: 25% !important;
 }
 
-.loginContainer .logoImg{
-margin-top: auto;
+.loginContainer .logoImg {
+  margin-top: auto;
 }
 
 
 .signupLink {
-    text-align: center;
-    margin-top: 15px;
-    color: #666;
-    font-size: 14px;
-  }
-  
-  .linkButton {
-    background: none;
-    border: none;
-    color: var(--primColor, #f97316);
-    font-weight: 500;
-    cursor: pointer;
-    padding: 0;
-    font-size: 14px;
-  }
-  
-  .linkButton:hover {
-    text-decoration: underline;
-  }
-  
+  text-align: center;
+  margin-top: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--primColor, #f97316);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}

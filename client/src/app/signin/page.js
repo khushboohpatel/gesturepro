@@ -124,7 +124,7 @@ function SignIn() {
         width={125}
         height={35}
       />
-      <h1 className={styles.loginTitle}>Sign in to your account</h1>
+      <h1 className={styles.loginTitle}>Sign in to your account!</h1>
       <div >
         {defaultSignin ? (
           <form onSubmit={formik.handleSubmit}>
