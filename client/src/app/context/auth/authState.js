@@ -46,13 +46,10 @@ export const AuthState = (props) => {
         type: USER_LOADED,
         payload: res.data,
       });
-
       if (global.session) {
-        session.set("token", res.data.token);
-        session.set("username", formData.username);
+        session.set("token", res.data.access_token);
       } else {
-        storage.set("token", res.data.token);
-        storage.set("username", formData.username);
+        storage.set("token", res.data.access_token);
       }
 
       // loadUser();
@@ -82,16 +79,6 @@ export const AuthState = (props) => {
   useEffect(() => {
     if (storage.get("token")) {
       setAuthToken(storage.get("token"));
-    }
-
-    if (storage.get("username")) {
-      dispatch({
-        type: USER_LOADED,
-        payload: {
-          username: storage.get("username"),
-          serviceNumber: storage.get("username"),
-        },
-      });
     }
   }, []);
 
