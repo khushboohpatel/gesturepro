@@ -11,8 +11,8 @@ import EastIcon from "@mui/icons-material/East";
 
 export default function SignupStep2({ handleNext }) {
   const validationArray = Yup.object({
-    first_name: Yup.string().required("This field is required!"),
-    last_name: Yup.string().required("This field is required!"),
+    first_name: Yup.string().required("First name field is required!"),
+    last_name: Yup.string().required("Last name field is required!"),
   });
 
   const formik = useFormik({

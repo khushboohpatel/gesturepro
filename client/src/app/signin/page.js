@@ -49,8 +49,8 @@ export default function SignIn() {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: Yup.object({
-      email:    Yup.string().email('Invalid email').required('Required'),
-      password: Yup.string().required('Required'),
+      email:    Yup.string().email('Invalid email').required('Email field is required!'),
+      password: Yup.string().required('Password field is required!'),
     }),
     onSubmit: async (values) => {
       try {

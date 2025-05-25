@@ -41,7 +41,7 @@ export default function SignupStep3({ handleNext, step2Values }) {
   const validationArray = Yup.object({
     email: Yup.string()
       .email("Invalid email address")
-      .required("This field is required!"),
+      .required("Email field is required!"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -49,7 +49,7 @@ export default function SignupStep3({ handleNext, step2Values }) {
         /[!@#$%^&*(),.?":{}|<>]/,
         "Password must contain at least one special character"
       )
-      .required("This field is required!"),
+      .required("Password field is required!"),
   });
 
   const formik = useFormik({
