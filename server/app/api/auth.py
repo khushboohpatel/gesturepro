@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from ..models.schemas import UserCreate, UserLogin, UserOut
-from ..services.auth_service import create_user, authenticate_user, generate_jwt, verify_email
+from ..services.auth_service import create_user, authenticate_user, generate_jwt, verify_email, verify_jwt, get_user_by_email
 from ..utils.db import SessionLocal
 
 router = APIRouter()
+security = HTTPBearer()
 
 def get_db():
     db = SessionLocal()
@@ -36,3 +38,12 @@ def verify(token: str, db: Session = Depends(get_db)):
         return {"message": "Email verified successfully"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/get-user", response_model=UserOut)
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
+    try:
+        email = verify_jwt(credentials.credentials)
+        user = get_user_by_email(db, email)
+        return user
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))

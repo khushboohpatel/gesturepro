@@ -2,7 +2,7 @@ import logging
 import re
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-from jose import jwt
+from jose import jwt, JWTError
 from uuid import uuid4
 from ..models.user import User
 from ..models.schemas import UserCreate, UserLogin
@@ -85,4 +85,20 @@ def verify_email(db: Session, token: str):
     user.verification_token = None
     db.commit()
     logger.info(f"Email verified for {user.email}")
+    return user
+
+def verify_jwt(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise ValueError("Invalid token")
+        return email
+    except JWTError:
+        raise ValueError("Invalid token")
+
+def get_user_by_email(db: Session, email: str):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise ValueError("User not found")
     return user
