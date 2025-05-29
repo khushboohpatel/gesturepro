@@ -15,8 +15,8 @@ class UserOut(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
-    is_active: bool
-    is_verified: bool
+    # is_active: bool
+    # is_verified: bool
 
     class Config:
         from_attributes  = True
