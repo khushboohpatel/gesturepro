@@ -16,13 +16,11 @@ import { cookieUtils, COOKIE_NAMES } from "../../../utils/cookies";
 import { signOut } from "next-auth/react";
 
 export const AuthState = (props) => {
-  // Check for existing token from storage only (not cookies for client-side state)
-  // Cookies are primarily for server-side middleware detection
   const existingToken = storage.get("token") || session.get("token");
-  
+
   const initialState = {
     token: existingToken,
-    isAuthenticated: !!existingToken, // Set to true if any token exists
+    isAuthenticated: !!existingToken,
     loading: true,
     user: null,
     responseStatus: null,
@@ -32,14 +30,12 @@ export const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
   let resp = new response(dispatch, RESPONSE_STATUS);
 
-  // Helper function to set token in all storage methods
   const setTokenEverywhere = (token) => {
     if (global.session) {
       session.set("token", token);
     } else {
       storage.set("token", token);
     }
-    // Also store in cookie for middleware access
     cookieUtils.set(COOKIE_NAMES.AUTH_TOKEN, token, {
       expires: 7, // 7 days
       secure: process.env.NODE_ENV === 'production',
@@ -47,21 +43,17 @@ export const AuthState = (props) => {
     });
   };
 
-  // Helper function to remove token from all storage methods
   const removeTokenEverywhere = () => {
-    // Clear tokens from all storage methods
     storage.remove("token");
     session.remove("token");
     cookieUtils.remove(COOKIE_NAMES.AUTH_TOKEN);
-    
-    // Clear other auth-related data
+
     storage.remove("username");
     storage.remove("user");
     session.remove("username");
     session.remove("user");
     cookieUtils.remove(COOKIE_NAMES.USER_SESSION);
-    
-    // Clear axios default headers
+
     setAuthToken(null);
   };
 
@@ -85,13 +77,11 @@ export const AuthState = (props) => {
         type: USER_LOADED,
         payload: res.data,
       });
-      
-      // Store token in all storage methods
-      setTokenEverywhere(res.data.access_token);
-      
-      resp.commonResponse(res, "login", "Logged in successfully!");
 
-      // loadUser();
+      setTokenEverywhere(res.data.access_token);
+      setAuthToken(res.data.access_token);
+      resp.commonResponse(res, "login", "Logged in successfully!");
+      await getUser();
     } catch (err) {
       dispatch({
         type: LOGOUT,
@@ -103,48 +93,55 @@ export const AuthState = (props) => {
 
   // Log out
   const logout = async () => {
-    // 1. Update auth state FIRST to immediately show user as logged out
     dispatch({ type: LOGOUT });
-    
-    // Check if user has NextAuth session (Google OAuth)
-    const hasNextAuthSession = !!storage.get("next-auth.session-token") || 
-                               !!cookieUtils.get("next-auth.session-token") ||
-                               !!cookieUtils.get("__Secure-next-auth.session-token");
-    
-    // 2. Clear NextAuth session and cookies
+
+    const hasNextAuthSession = !!storage.get("next-auth.session-token") ||
+      !!cookieUtils.get("next-auth.session-token") ||
+      !!cookieUtils.get("__Secure-next-auth.session-token");
+
     try {
       if (hasNextAuthSession) {
-        // For Google OAuth users, clear storage first, then redirect
         removeTokenEverywhere();
         await signOut({ callbackUrl: "/signin" });
         return;
       } else {
-        // For regular users, just clear NextAuth without redirect
         await signOut({ redirect: false });
       }
     } catch (error) {
       console.error('Error during NextAuth signOut:', error);
     }
-    
-    // 3. Clear cookies via Next.js API route
+
     try {
-      await fetch('/api/auth/logout', { 
+      await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include'
       });
     } catch (error) {
       console.error('Error during Next.js logout:', error);
     }
-    
-    // 4. Clear client-side storage
+
     removeTokenEverywhere();
-    
-    // 5. Small delay to ensure React state updates before redirect
+
     await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // 6. Redirect to signin for regular users
+
     if (typeof window !== 'undefined') {
       window.location.href = '/signin';
+    }
+  };
+
+  // Get User
+  const getUser = async () => {
+    try {
+      const res = await apiCall("get", "get-user", "", "", "auth");
+      dispatch({
+        type: USER_LOADED,
+        payload: res
+      });
+
+      resp.commonResponse(res, "getUser", "User fetched successfully!");
+
+    } catch (err) {
+      resp.commonErrorResponse("getUser", "Something went wrong!");
     }
   };
 
@@ -162,6 +159,9 @@ export const AuthState = (props) => {
     const token = storage.get("token") || session.get("token");
     if (token) {
       setAuthToken(token);
+      if (!state.user) {
+        getUser();
+      }
     }
   }, []);
 
@@ -176,6 +176,7 @@ export const AuthState = (props) => {
         error: state.error,
         register,
         login,
+        getUser,
         logout,
         clearResponse,
         clearError,

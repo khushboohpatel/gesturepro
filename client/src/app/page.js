@@ -13,15 +13,12 @@ export default function Home() {
   const { data: session, status } = useSession();
   const nextAuthSession = session;
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
   const [username, setUsername] = useState("User");
 
   const authContext = useContext(AuthContext);
-  const { logout } = authContext;
+  const { logout, user: contextUser } = authContext;
 
   useEffect(() => {
-    setIsClient(true);
-    // Get username from storage after component mounts
     if (typeof window !== 'undefined') {
       const storedUsername = localStorage.getItem("username") || sessionStorage.getItem("username");
       if (storedUsername) {
@@ -64,9 +61,9 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  const user = nextAuthSession?.user || {
-    name: username
-  };
+  const user = contextUser ?
+    { name: `${contextUser.first_name} ${contextUser.last_name}`.trim() || contextUser.email } :
+    nextAuthSession?.user || { name: username };
 
   return (
     <>
