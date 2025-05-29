@@ -1,11 +1,12 @@
 "use client";
 import "./globals.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import SplashScreen from "@/components/SplashScreen";
+import AuthContext from "./context/auth/authContext";
 
 export default function Skeleton({ children }) {
   const [value, setValue] = useState(0);
@@ -13,23 +14,24 @@ export default function Skeleton({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { data: session, status } = useSession();
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      setIsAuthenticated(false);
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, [status]);
+    const nextAuthAuthenticated = status === "authenticated";
+    const customAuthAuthenticated = authContext?.isAuthenticated;
+
+    const userAuthenticated = nextAuthAuthenticated || customAuthAuthenticated;
+
+    setIsAuthenticated(userAuthenticated);
+  }, [status, authContext?.isAuthenticated, authContext?.token]);
 
   return (
     <>
       <SplashScreen onLoadingComplete={() => setIsLoading(false)} />
       {!isLoading && (
         <div
-          className={`desktopContainer ${
-            isAuthenticated ? "authenticated" : ""
-          }`}
+          className={`desktopContainer ${isAuthenticated ? "authenticated" : ""
+            }`}
         >
           {children}
           {isAuthenticated ? (

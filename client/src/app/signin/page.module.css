@@ -47,7 +47,7 @@
   right: -16px;
   width: 30%;
   max-width: 200px;
-  z-index: 0;
+  z-index: -1;
   animation: slideUpFade 0.8s ease-out forwards;
   opacity: 0;
 }
@@ -58,7 +58,7 @@
   right: -16px;
   width: 60%;
   max-width: 200px;
-  z-index: 0;
+  z-index: -1;
   animation: slideUpFade 0.8s ease-out 0.2s forwards;
   opacity: 0;
   transform: translateY(0);
@@ -70,7 +70,7 @@
   position: absolute;
   top: 20%;
   left: -16px;
-  z-index: 0;
+  z-index: -1;
   animation: slideUpFade 0.8s ease-out 0.4s forwards;
   opacity: 0;
 }

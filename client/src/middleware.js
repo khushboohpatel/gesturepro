@@ -1,16 +1,30 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { cookieUtils, COOKIE_NAMES } from "./utils/cookies";
 
 export async function middleware(req) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  // Check for NextAuth token (Google OAuth)
+  const nextAuthToken = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  
+  // Check for custom auth token in cookies (regular signin)
+  const cookies = cookieUtils.parseFromRequest(req);
+  const customAuthToken = cookies[COOKIE_NAMES.AUTH_TOKEN];
+  
+  // User is authenticated if either token exists
+  const isAuthenticated = !!(nextAuthToken || customAuthToken);
+  
   const { pathname } = req.nextUrl;
 
   // Allow public paths
   const publicPaths = [
     "/signin",
-    "/signup",
+    "/signup", 
     "/api/auth",
     "/manifest.json",
+    "/screenshots",
+    "/assets",
+    "/images",
+    "/icons"
   ];
   
   const isPublicPath = publicPaths.some(path => 
@@ -18,12 +32,12 @@ export async function middleware(req) {
   );
 
   // Redirect authenticated users away from auth pages (signin/signup)
-  if (token && (pathname.startsWith("/signin") || pathname.startsWith("/signup"))) {
+  if (isAuthenticated && (pathname.startsWith("/signin") || pathname.startsWith("/signup"))) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Redirect unauthenticated users to signin page if trying to access protected route
-  if (!token && !isPublicPath) {
+  if (!isAuthenticated && !isPublicPath) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
 

@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import CustomButton from "@/components/atoms/buttons/CustomButton";
 import styles from "./page.module.css";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import Cookies from 'js-cookie';
+import AuthContext from "./context/auth/authContext";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -13,6 +15,9 @@ export default function Home() {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [username, setUsername] = useState("User");
+
+  const authContext = useContext(AuthContext);
+  const { logout } = authContext;
 
   useEffect(() => {
     setIsClient(true);
@@ -25,20 +30,31 @@ export default function Home() {
     }
   }, []);
 
-  const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem("token");
-      sessionStorage.removeItem("token");
-      localStorage.removeItem("username");
-      sessionStorage.removeItem("username");
+  const handleLogout = async () => {
+    if (logout) {
+      await logout();
+    } else {
+      console.error("Auth context logout not available, falling back to manual cleanup");
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        localStorage.removeItem("username");
+        sessionStorage.removeItem("username");
+        Cookies.remove('auth_token', { path: '/' });
+      }
+      signOut({ callbackUrl: "/signin" });
     }
-    signOut({ callbackUrl: "/signin" });
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const localToken = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (status === "unauthenticated" && !localToken) {
+      if (session != null) {
+        if (status === "unauthenticated" && !localToken) {
+          router.push("/signin");
+        }
+      }
+      else if (!localToken) {
         router.push("/signin");
       }
     }
@@ -48,7 +64,6 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  // Get user info from either auth method
   const user = nextAuthSession?.user || {
     name: username
   };
@@ -89,7 +104,7 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.homeModuleSection}>
-        <Button className={styles.homeModule + " " + styles.gpVideo} onClick={()=>router.push("/video")}>
+        <Button className={styles.homeModule + " " + styles.gpVideo} onClick={() => router.push("/video")}>
           <span>
             <h3>GesturePro Video</h3>
             <p>
@@ -125,6 +140,8 @@ export default function Home() {
         buttonType="primary"
         label="Logout"
         onClick={handleLogout}
+      // onClick={() => Cookies.remove('auth_token', { path: '/' })
+      // }
       />
     </>
   );
