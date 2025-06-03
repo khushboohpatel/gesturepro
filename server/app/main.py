@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import auth
+from .api import auth, video
 from .models.user import Base
 from .utils.db import engine
 import logging
@@ -23,3 +23,4 @@ app.add_middleware(
 )
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(video.router, prefix="/video", tags=["video"])
