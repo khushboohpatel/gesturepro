@@ -7,6 +7,7 @@ import AuthState from "./context/auth/authState";
 import AlertState from "./context/alert/alertState";
 import SnackbarState from "./context/snackbar/snackbarState";
 import Alerts from "../utils/alert";
+import VideoTranslationState from "./context/videoTranslation/videoTranslationState";
 
 const livvic = Livvic({
   variable: "--font-livvic",
@@ -20,11 +21,23 @@ export const metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/assets/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/assets/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      {
+        url: "/assets/icons/icon-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/assets/icons/icon-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
     ],
     apple: [
-      { url: "/assets/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      {
+        url: "/assets/icons/icon-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
     ],
   },
 };
@@ -56,18 +69,20 @@ export default function RootLayout({ children }) {
       <body className={`${livvic.variable} antialiased`}>
         <AuthState>
           <AlertState>
-            <NextAuthSessionProvider>
-              <ThemeRegistry>
-                <SnackbarState>
-                  <Skeleton>
-                    <>
-                      <Alerts />
-                      {children}
-                    </>
-                  </Skeleton>
-                </SnackbarState>
-              </ThemeRegistry>
-            </NextAuthSessionProvider>
+            <VideoTranslationState>
+              <NextAuthSessionProvider>
+                <ThemeRegistry>
+                  <SnackbarState>
+                    <Skeleton>
+                      <>
+                        <Alerts />
+                        {children}
+                      </>
+                    </Skeleton>
+                  </SnackbarState>
+                </ThemeRegistry>
+              </NextAuthSessionProvider>
+            </VideoTranslationState>
           </AlertState>
         </AuthState>
       </body>
