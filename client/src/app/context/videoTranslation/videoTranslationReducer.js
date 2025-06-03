@@ -12,7 +12,7 @@ export default (state, action) => {
     case VIDEO_WORD_TOKENS:
       return {
         ...state,
-        videoTranscript: action?.payload?.data,
+        videoTranscript: action?.payload,
       };
     case RESPONSE_STATUS:
       return {

@@ -8,17 +8,17 @@ export const apiCall = async (method, endpoint, data, headertype, baseurl) => {
     site_url = `${process.env.NEXT_PUBLIC_API_URL}/${baseurl}/`;
   }
   return new Promise(async (resolve, reject) => {
-    let type = "";
-    if (headertype && headertype === "formdata") {
-      type = "multipart/form-data";
-    } else {
-      type = "application/json";
-    }
     const config = {
-      headers: {
-        "content-type": type,
-      },
+      headers: {},
     };
+    
+    // For FormData, don't set Content-Type - let axios handle it automatically
+    if (headertype && headertype === "formdata") {
+      // Don't set Content-Type for FormData - axios will set it with proper boundary
+    } else {
+      config.headers["content-type"] = "application/json";
+    }
+    
     switch (method) {
       case "post":
         try {

@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import Webcam from "react-webcam";
 import styles from "./page.module.css";
 import VideoTranslationContext from "../context/videoTranslation/videoTranslationContext";
+import SnackbarContext from "../context/snackbar/snackbarContext";
 
 export default function GPVideo() {
   const videoTranslationContext = useContext(VideoTranslationContext);
@@ -14,6 +15,8 @@ export default function GPVideo() {
     responseStatus,
     clearResponse,
   } = videoTranslationContext;
+
+  const { showSnackbar } = useContext(SnackbarContext);
 
   const webcamRef = useRef(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -108,11 +111,13 @@ export default function GPVideo() {
   };
 
   useEffect(() => {
+    console.log("VideoTranscript changed:", videoTranscript);
     if (videoTranscript && videoTranscript.predicted_text) {
-      console.log("Predicted character:", videoTranscript.predicted_text);
+      console.log("Predicted text:", videoTranscript.predicted_text);
+      console.log("Predicted character:", videoTranscript.predicted_character);
       setPredictedText(videoTranscript.predicted_text);
     } else {
-      console.log("No valid character detected.");
+      console.log("No valid character detected or videoTranscript is null");
       setPredictedText("");
     }
   }, [videoTranscript]);

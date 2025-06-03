@@ -22,7 +22,12 @@ export const VideoTranslationState = (props) => {
 
   const startPredictingWordTokens = async (formData) => {
     try {
-      const res = await apiCall("post", "predict_frame", formData, "", "video");
+      const res = await apiCall("post", "predict_frame", formData, "formdata", "video");
+      
+      // Debug logging
+      console.log("API Response:", res);
+      console.log("API Response Data:", res.data);
+      
       dispatch({
         type: VIDEO_WORD_TOKENS,
         payload: res.data,
@@ -34,16 +39,17 @@ export const VideoTranslationState = (props) => {
         res?.response?.data?.detail
       );
     } catch (err) {
+      console.error("API Error:", err);
       resp.commonErrorResponse(
         "startPredictingWordTokens",
-        res?.response?.data?.detail
+        err?.response?.data?.detail
       );
     }
   };
 
   const endPredictingWordTokens = async (formData) => {
     try {
-      const res = await apiCall("post", "reset_capture", formData, "", "video");
+      const res = await apiCall("get", "reset_capture", {}, "", "video");
 
       resp.commonResponse(
         res,
