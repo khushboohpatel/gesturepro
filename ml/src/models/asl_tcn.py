@@ -1,5 +1,3 @@
-# server/app/models/model.py
-
 import torch
 import torch.nn as nn
 

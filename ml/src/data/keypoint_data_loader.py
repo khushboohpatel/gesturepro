@@ -1,6 +1,6 @@
 import os
 from torch.utils.data import DataLoader
-from .dataset import ASLKeypointDataset
+from .keypoint_dataset import ASLKeypointDataset
 
 
 def get_dataloaders(batch_size=32):

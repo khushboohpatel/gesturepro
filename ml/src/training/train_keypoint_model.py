@@ -4,9 +4,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from models.dataloaders import get_dataloaders
-from models.model_LSTM import ASLLSTM
-from models.model import ASLTCN
+from ml.datasets.dataloaders import get_dataloaders
+from ml.models.asl_lstm import ASLLSTM
+from ml.models.asl_tcn import ASLTCN
 
 
 # Device setup
