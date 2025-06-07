@@ -1,13 +1,37 @@
-fastapi==0.115.5
-uvicorn==0.32.1
-sqlalchemy
-psycopg2-binary
-python-dotenv
-passlib[bcrypt]
-python-jose
-email-validator
-opencv-python-headless==4.10.0.84
-mediapipe==0.10.14
-numpy==1.26.4
-scikit-learn
-python-multipart
+# Core dependencies with NumPy 1.x compatibility
+numpy>=1.21.0,<2.0.0
+opencv-python==4.8.1.78
+pillow>=10.0.0
+
+# ML packages
+torch>=2.0.0
+torchvision>=0.15.0
+ultralytics>=8.0.0
+
+# FastAPI and server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+
+# Scientific computing
+pandas>=1.5.0
+matplotlib>=3.5.0
+scikit-learn>=1.1.0
+
+# Utilities
+pydantic>=2.0.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+
+# Development
+pytest>=7.0.0
+jupyter>=1.0.0
+
+# Build tools
+setuptools>=68.0.0
+wheel>=0.40.0

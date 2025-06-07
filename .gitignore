@@ -4,6 +4,7 @@ __pycache__/
 .env
 *.sqlite3
 *.db
+venv/*
 
 # React
 node_modules/
@@ -12,3 +13,5 @@ build/
 
 # Docker
 *.log
+*.DS_Store
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>20b25f90-child.e217a7c8-409a-11f0-aa8d-5289df1e24ad.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>1920</width>
+<height>1080</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Child</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>436</xmin>
+<ymin>380</ymin>
+<xmax>869</xmax>
+<ymax>775</ymax>
+</bndbox>
+</object>
+</annotation>
