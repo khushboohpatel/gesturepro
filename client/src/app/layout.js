@@ -8,6 +8,7 @@ import AlertState from "./context/alert/alertState";
 import SnackbarState from "./context/snackbar/snackbarState";
 import Alerts from "../utils/alert";
 import VideoTranslationState from "./context/videoTranslation/videoTranslationState";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const livvic = Livvic({
   variable: "--font-livvic",
@@ -60,11 +61,17 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#3359C6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="GesturePro" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="GesturePro" />
+        <meta name="msapplication-TileColor" content="#3359C6" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
         <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512x512.png" />
       </head>
       <body className={`${livvic.variable} antialiased`}>
         <AuthState>
@@ -77,6 +84,7 @@ export default function RootLayout({ children }) {
                       <>
                         <Alerts />
                         {children}
+                        <PWAInstallPrompt />
                       </>
                     </Skeleton>
                   </SnackbarState>

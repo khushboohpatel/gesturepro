@@ -28,6 +28,12 @@ body {
   font-family: var(--font-livvic), Arial, Helvetica, sans-serif;
 }
 
+/* PWA Install Banner Spacing */
+.pwa-banner-active {
+  padding-top: 70px !important;
+  transition: padding-top 0.3s ease-out;
+}
+
 a,
 button {
   font-family: var(--font-livvic) !important;
