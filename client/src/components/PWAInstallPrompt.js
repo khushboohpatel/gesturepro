@@ -130,7 +130,8 @@ export default function PWAInstallPrompt() {
           sx={{ 
             opacity: 0.9,
             fontSize: '12px',
-            lineHeight: 1.2
+            lineHeight: 1,
+            display: 'inline-block'
           }}
         >
           Get the full app experience.
