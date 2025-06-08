@@ -2,6 +2,7 @@
 import { useRef, useState, useContext, useCallback, useEffect } from "react";
 import { Button } from "@mui/material";
 import Webcam from "react-webcam";
+import { v4 as uuidv4 } from 'uuid';
 import styles from "./page.module.css";
 import VideoTranslationContext from "../context/videoTranslation/videoTranslationContext";
 import SnackbarContext from "../context/snackbar/snackbarContext";
@@ -11,6 +12,7 @@ export default function GPVideo() {
   const {
     startPredictingWordTokens,
     endPredictingWordTokens,
+    clearSessionSentence,
     videoTranscript,
     responseStatus,
     clearResponse,
@@ -27,10 +29,10 @@ export default function GPVideo() {
   const [isSecureContext, setIsSecureContext] = useState(true);
   const [isCapturing, setIsCapturing] = useState(false);
   const [predictedText, setPredictedText] = useState("");
+  const [sessionId, setSessionId] = useState(null);
   const captureInterval = useRef(null);
 
   useEffect(() => {
-    // Check if device is mobile
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const mobileRegex =
@@ -39,10 +41,10 @@ export default function GPVideo() {
     };
     checkMobile();
 
-    // Check if running in secure context
     setIsSecureContext(window.isSecureContext);
 
-    // Cleanup on unmount
+    setSessionId(uuidv4());
+
     return () => {
       if (captureInterval.current) {
         clearInterval(captureInterval.current);
@@ -101,9 +103,9 @@ export default function GPVideo() {
       }
 
       const formData = new FormData();
-      formData.append("frame", blob, "frame.jpg");
+      formData.append("file", blob, "frame.jpg");
       try {
-        await startPredictingWordTokens(formData);
+        await startPredictingWordTokens(formData, sessionId);
       } catch (err) {
         showSnackbar("Failed to fetch tokens. Please try again!", "error");
       }
@@ -112,12 +114,19 @@ export default function GPVideo() {
 
   useEffect(() => {
     console.log("VideoTranscript changed:", videoTranscript);
-    if (videoTranscript && videoTranscript.predicted_text) {
-      console.log("Predicted text:", videoTranscript.predicted_text);
-      console.log("Predicted character:", videoTranscript.predicted_character);
-      setPredictedText(videoTranscript.predicted_text);
+    if (videoTranscript) {
+      if (videoTranscript.sentence_info && videoTranscript.sentence_info.sentence) {
+        console.log("Predicted sentence:", videoTranscript.sentence_info.sentence);
+        setPredictedText(videoTranscript.sentence_info.sentence === "no_detection" ? "" : videoTranscript.sentence_info.sentence);
+      } else if (videoTranscript.predicted_class) {
+        console.log("Predicted class:", videoTranscript.predicted_class);
+        setPredictedText(videoTranscript.predicted_class === "no_detection" ? "" : videoTranscript.predicted_class);
+      } else {
+        console.log("No valid detection or videoTranscript structure changed");
+        setPredictedText("");
+      }
     } else {
-      console.log("No valid character detected or videoTranscript is null");
+      console.log("VideoTranscript is null");
       setPredictedText("");
     }
   }, [videoTranscript]);
@@ -141,7 +150,8 @@ export default function GPVideo() {
     }
 
     try {
-      endPredictingWordTokens();
+      await endPredictingWordTokens(sessionId);
+      await clearSessionSentence(sessionId);
       setPredictedText("");
       setCurrentWordIndex(-1);
       clearResponse();

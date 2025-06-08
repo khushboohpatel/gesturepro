@@ -20,17 +20,37 @@ export const VideoTranslationState = (props) => {
   const [state, dispatch] = useReducer(VideoTranslationReducer, initialState);
   let resp = new response(dispatch, RESPONSE_STATUS);
 
-  const startPredictingWordTokens = async (formData) => {
+  const startPredictingWordTokens = async (formData, sessionId) => {
     try {
-      const res = await apiCall("post", "predict_frame", formData, "formdata", "video");
+      const headers = {};
+      if (sessionId) {
+        headers['X-Session-ID'] = sessionId;
+      }
+      
+      const res = await apiCall("post", "predict-stream", formData, "formdata", "api/sign", headers);
       
       // Debug logging
       console.log("API Response:", res);
       console.log("API Response Data:", res.data);
       
+      // Handle API response structure - check if it's successful or error
+      let responseData = null;
+      if (res.data && res.data.success) {
+        // Success case - extract the data
+        responseData = res.data.data;
+      } else if (res.response && res.response.data) {
+        // Error case - handle error response
+        console.error("API Error Response:", res.response.data);
+        resp.commonErrorResponse(
+          "startPredictingWordTokens",
+          res.response.data.detail || "API request failed"
+        );
+        return;
+      }
+      
       dispatch({
         type: VIDEO_WORD_TOKENS,
-        payload: res.data,
+        payload: responseData,
       });
 
       resp.commonResponse(
@@ -42,25 +62,38 @@ export const VideoTranslationState = (props) => {
       console.error("API Error:", err);
       resp.commonErrorResponse(
         "startPredictingWordTokens",
-        err?.response?.data?.detail
+        err?.response?.data?.detail || "Network error occurred"
       );
     }
   };
 
-  const endPredictingWordTokens = async (formData) => {
+  const endPredictingWordTokens = async (sessionId) => {
     try {
-      const res = await apiCall("get", "reset_capture", {}, "", "video");
+      // Clear the session sentence when ending prediction
+      console.log(sessionId, 'checksessionId')
+      if (sessionId) {
+        await apiCall("delete", `sentence/${sessionId}`, {}, "", "api/sign");
+      }
 
       resp.commonResponse(
-        res,
-        "endPredictingWordTokens",
-        res?.response?.data?.detail
+        { data: { success: true } },
+        "endPredictingWordTokens"
       );
     } catch (err) {
       resp.commonErrorResponse(
         "endPredictingWordTokens",
-        res?.response?.data?.detail
+        err?.response?.data?.detail || "Failed to end prediction session"
       );
+    }
+  };
+
+  const clearSessionSentence = async (sessionId) => {
+    try {
+      if (sessionId) {
+        await apiCall("delete", `sentence/${sessionId}`, {}, "", "api/sign");
+      }
+    } catch (err) {
+      console.error("Failed to clear session sentence:", err);
     }
   };
 
@@ -77,6 +110,7 @@ export const VideoTranslationState = (props) => {
         responseStatus: state.responseStatus,
         startPredictingWordTokens,
         endPredictingWordTokens,
+        clearSessionSentence,
         clearResponse,
       }}
     >
