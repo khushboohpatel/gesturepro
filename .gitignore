@@ -15,3 +15,5 @@ build/
 *.log
 *.DS_Store
 
+ml/data/*
+ml/notebooks/runs/*

@@ -24,6 +24,7 @@ scikit-learn>=1.1.0
 
 # Utilities
 pydantic>=2.0.0
+pydantic[email]
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-dotenv==1.0.0

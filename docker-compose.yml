@@ -18,8 +18,10 @@ services:
       timeout: 5s
       retries: 5
 
-  app:
-    build: ./server
+  backend:
+    build: 
+      context: .
+      dockerfile: ./server/Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -31,14 +33,21 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      ML_MODELS_PATH: /server/ml/saved_models
+      YOLO_MODEL_PATH: /server/ml/saved_models/yolo/yolo_best.pt
+      CLASS_NAMES_PATH: /server/ml/saved_models/yolo/class_names.json
+    volumes:
+      - ./ml/saved_models:/server/ml/saved_models:ro
+      - ./server/app:/server/app:ro
     ports:
       - "8000:8000"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   frontend:
     build: ./client
@@ -48,10 +57,10 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NODE_ENV=production
     depends_on:
-      app:
+      backend:
         condition: service_healthy
     restart: unless-stopped
-    command: sh -c "npm run build && npm start"
+    command: sh -c "npm run dev"
     working_dir: /app
 
 volumes:
