@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>e82893c3-father.6c18df04-409c-11f0-8403-7e3ae299f8be.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>1920</width>
+<height>1080</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Father</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>327</xmin>
+<ymin>29</ymin>
+<xmax>896</xmax>
+<ymax>710</ymax>
+</bndbox>
+</object>
+</annotation>

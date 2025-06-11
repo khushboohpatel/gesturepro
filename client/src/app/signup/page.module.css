@@ -1,0 +1,174 @@
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.signupImgCnt {
+  position: relative;
+  perspective: 1000px;
+}
+
+.signupImgCnt:before {
+  z-index: -1;
+  background: #f973164a;
+  filter: blur(117.5px);
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.signupImg {
+  margin: 35px auto;
+  animation: fadeInScale 0.6s ease-out forwards;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.signupTitle {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.signupTypeBtn {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.signupTypeBtn :global(.MuiButtonBase-root.customButton) {
+  height: 45px;
+  font-size: 15px;
+  font-weight: 400;
+  justify-content: space-between;
+}
+
+.loginLink {
+  text-align: center;
+  margin-top: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--primColor, #f97316);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+/* Custom stepper styles */
+.customStepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  position: relative;
+}
+
+.stepperDots {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.stepperDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d4d4d4;
+}
+
+.activeDot {
+  background: #616161;
+  width: 20px;
+  border-radius: 10px;
+}
+
+.stepperBack {
+  position: absolute;
+  top: 3%;
+  left: 0;
+}
+
+.stepperNext {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.signupStepperBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -35px;
+}
+
+.signupStepperBar :global(.signupBackBtn) {
+  position: absolute;
+  top: 3%;
+  left: 0;
+}
+
+.signupCnt :global(.signupNextBtn) {
+  width: 60px;
+  height: 60px;
+  min-width: initial;
+  border-radius: 50%;
+  background: var(--primColor);
+  color: #fff;
+}
+
+.signupCnt :global(.signupNextBtn:hover) {
+  background: var(--primColor);
+  opacity: 0.8;
+  color: #fff;
+}
+
+.authContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-end;
+  padding-bottom: 25% !important;
+}
+
+.signupCnt.finalStep {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.signupCnt.finalStep .signupImgCnt {
+  margin-top: auto;
+}
+
+.signupCnt.finalStep .signupTitle {
+  margin-bottom: auto;
+}
+
+.signupCnt.finalStep .logoImg {
+  margin-top: 40px;
+}

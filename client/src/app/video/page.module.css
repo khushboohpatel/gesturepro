@@ -1,0 +1,82 @@
+.camCntOn {
+  background: #dde6ff;
+  height: calc(76vh - 100px);
+}
+
+.camCntOn video{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.camCntOff {
+    background: #dde6ff;
+    height: calc(88vh - 100px);
+}
+
+.toggleCamCnt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  height: 100%;
+  padding: 20px 0;
+}
+
+.toggleCamCnt .toggleCamBtn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  min-width: initial;
+  border: 1px solid #5176e0;
+}
+
+.toggleCamBtn span.camOn {
+  width: 50px;
+  height: 50px;
+  background: #5176e0;
+  border-radius: 50%;
+}
+
+.toggleCamBtn span.camOff {
+  width: 30px;
+  height: 30px;
+  background: #5176e0;
+  border-radius: 8px;
+}
+
+.camTranscript {
+  display: grid;
+  grid-template-columns: auto 50px;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.camTranscript p {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.camTranscript :global(.MuiButton-root) {
+  background: #e1e7f9;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  min-width: initial;
+}
+
+.errorMessage {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.errorMessage p {
+  margin: 0.5rem 0;
+}

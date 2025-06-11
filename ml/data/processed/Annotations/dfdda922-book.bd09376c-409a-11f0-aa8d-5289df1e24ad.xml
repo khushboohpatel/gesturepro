@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotation>
+<folder>images</folder>
+<filename>dfdda922-book.bd09376c-409a-11f0-aa8d-5289df1e24ad.jpg</filename>
+<source>
+<database>MyDatabase</database>
+<annotation>COCO2017</annotation>
+<image>flickr</image>
+<flickrid>NULL</flickrid>
+<annotator>1</annotator>
+</source>
+<owner>
+<flickrid>NULL</flickrid>
+<name>Label Studio</name>
+</owner>
+<size>
+<width>1920</width>
+<height>1080</height>
+<depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+<name>Book</name>
+<pose>Unspecified</pose>
+<truncated>0</truncated>
+<difficult>0</difficult>
+<bndbox>
+<xmin>849</xmin>
+<ymin>616</ymin>
+<xmax>1421</xmax>
+<ymax>1073</ymax>
+</bndbox>
+</object>
+</annotation>

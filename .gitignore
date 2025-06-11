@@ -1,0 +1,19 @@
+# Python
+*.pyc
+__pycache__/
+.env
+*.sqlite3
+*.db
+venv/*
+
+# React
+node_modules/
+build/
+.env
+
+# Docker
+*.log
+*.DS_Store
+
+ml/data/*
+ml/notebooks/runs/*
